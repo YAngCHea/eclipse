@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>Insert title here</title>
+		<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+		  <script src="http://code.jquery.com/jquery-latest.min.js"></script>
+		
+		<style>
+		   *{padding: 0; margin: 0;}
+		   button{width: 120px; height: 30px; text-align: center;}
+		   div{width: 900px; height: 700px; margin: 20px auto; border: 2px solid black;}
+		</style>
+		<script>
+		
+		function dataBtn(){
+			let arr1 = new Array();  //배열선언
+			let arr2 = new Array();
+			let stuLable = "학생성적표"
+			
+			$.ajax({
+				url:"js/data.json",
+				data:"",
+				dataType:"json",
+				type:"get",
+				success:function(data){
+					for(let i=0;i<data.length;i++){
+						console.log("이름 : "+data[i].name);
+						arr1.push(data[i].name);
+						console.log("합계 : "+data[i].total);
+						arr2.push(data[i].total);
+						
+					}//for
+					console.log(arr1);
+					console.log(arr2);
+					
+					//그래프그리기
+					
+					alert("그래프그리기");
+					  const ctx = document.getElementById('myChart');
+					  let arrX = arr1;
+					  let arrY = arr2;
+					  let label = stuLabel;
+			
+					  new Chart(ctx, {
+					    type: 'bar',
+					    data: {
+					      labels: arr1  //['hong', 'yu' ...] x축값 - arr1 이름
+					      datasets: [{
+					        label: stuLabel,     //제목
+					        data: arr2,      //y축값 - arr2 합계
+					        borderWidth: 1,
+					        backgroundColor: [
+					            'rgba(255, 205, 86, 0.2)',
+					            'rgba(75, 192, 192, 0.2)',
+					            'rgba(54, 162, 235, 0.2)',
+					            'rgba(153, 102, 255, 0.2)',
+					            'rgba(201, 203, 207, 0.2)'
+					          ],
+					          borderColor: [
+					            'rgb(255, 205, 86)',
+					            'rgb(75, 192, 192)',
+					            'rgb(54, 162, 235)',
+					            'rgb(153, 102, 255)',
+					            'rgb(201, 203, 207)'
+					          ]
+					      }]
+					    },
+					    options: {
+					      scales: {
+					        y: {
+					          beginAtZero: true
+					        }
+					      }
+					    }
+					  });
+					
+					
+					
+					
+				},
+				error:function(){
+					alert("실패");
+				}
+			})//ajax
+		}//dataBtn
+		
+		
+		  function chartBtn() {
+			  
+		  //데이터를 변수에 넣기
+		    let arr1 = new Array();  //배열선언
+			let arr2 = new Array();
+			let stuLable = "학생성적표"
+			
+			$.ajax({
+				url:"js/data.json",
+				data:"",
+				dataType:"json",
+				type:"get",
+				success:function(data){
+					for(let i=0;i<data.length;i++){
+						console.log("이름 : "+data[i].name);
+						arr1.push(data[i].name);
+						console.log("합계 : "+data[i].total);
+						arr2.push(data[i].total);
+						
+					}//for
+					console.log(arr1);
+					console.log(arr2);
+				},
+				error:function(){
+					alert("실패");
+				}
+			})//ajax
+			  
+			  
+			
+		}
+		</script>
+	</head>
+	<body>
+	<button onclick="datatBtn()">데이터 가져오기</button><br>
+	<button onclick="chartBtn()">그래프그리기</button>
+	<br>
+    <div>
+       <canvas id="myChart"></canvas>
+    </div>
+	  
+	
+	</body>
+</html>
